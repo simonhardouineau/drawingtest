@@ -59,13 +59,6 @@
                 <option>Gomme</option>
                 <option>Circle</option>
                 <option>Spray</option>
-                <option>Pattern</option>
-
-                <option>hline</option>
-                <option>vline</option>
-                <option>square</option>
-                <option>diamond</option>
-                <option>texture</option>
             </select><br>
 
             <label for="drawing-line-width">Line width:</label>
@@ -189,30 +182,24 @@
             }
 
             $('drawing-mode-selector').onchange = function() {
-                jQuery("label[for='drawing-color']").show();
-                jQuery('#drawing-color').show();
+                var input_color = jQuery('#drawing-color');
+                var label_color = jQuery("label[for='drawing-color']");
+                var save_color = jQuery('#save_color');
 
-                if (this.value === 'hline') {
-                    canvas.freeDrawingBrush = vLinePatternBrush;
-                }
-                else if (this.value === 'vline') {
-                    canvas.freeDrawingBrush = hLinePatternBrush;
-                }
-                else if (this.value === 'square') {
-                    canvas.freeDrawingBrush = squarePatternBrush;
-                }
-                else if (this.value === 'diamond') {
-                    canvas.freeDrawingBrush = diamondPatternBrush;
-                }
-                else if (this.value === 'texture') {
-                    canvas.freeDrawingBrush = texturePatternBrush;
-                }
-                else if(this.value === 'Gomme'){
-                    jQuery("label[for='drawing-color']").hide();
-                    jQuery('#drawing-color').attr('type', 'hidden');
-                    jQuery('#drawing-color').val('#ffffff');
+
+                if(this.value === 'Gomme'){
+                    label_color.hide();
+                    input_color.attr('type', 'hidden');
+                    jQuery('#drawing-mode-options').append("<input id='save_color' type='hidden' name='save_color' value='" + input_color.val() + "' />");
+                    input_color.val('#ffffff');
                 }
                 else {
+                    if(save_color != undefined){
+                        input_color.val(save_color.val());
+                        save_color.remove();
+                    }
+                    label_color.show();
+                    input_color.attr('type', 'color');
                     canvas.freeDrawingBrush = new fabric[this.value + 'Brush'](canvas);
                 }
 
