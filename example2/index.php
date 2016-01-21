@@ -72,6 +72,7 @@
             <input type="button" value="Carré" id="square"/>
             <input type="button" value="Cercle" id="circle"/>
             <input type="button" value="Triangle" id="triangle"/>
+            <input type="button" value="remove" id="Remove"/>
         </div>
     </div>
 
@@ -88,9 +89,10 @@
             var drawingModeEl = $('drawing-mode'),
                 drawingOptionsEl = $('drawing-mode-options'),
                 formeOptionsEl = $('forme-mode-options'),
-                drawingColorEl = $('drawing-color')
+                drawingColorEl = $('drawing-color'),
                 drawingLineWidthEl = $('drawing-line-width'),
-                clearEl = $('clear-canvas');
+                clearEl = $('clear-canvas'),
+                drawingModeSelector = $('drawing-mode-selector');
 
             clearEl.onclick = function() { canvas.clear() };
 
@@ -108,7 +110,7 @@
                 }
             };
 
-            $('drawing-mode-selector').onchange = function() {
+            drawingModeSelector.onchange = function() {
                 var input_color = jQuery('#drawing-color');
                 var label_color = jQuery("label[for='drawing-color']");
                 var save_color = jQuery('#save_color');
@@ -147,6 +149,11 @@
             if (canvas.freeDrawingBrush) {
                 canvas.freeDrawingBrush.color = drawingColorEl.value;
                 canvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.value, 10) || 1;
+                if(drawingModeSelector.value == 'gomme'){
+                    canvas.freeDrawingBrush.hasBorders = false;
+                    canvas.freeDrawingBrush.hasControls = false;
+                    canvas.freeDrawingBrush.hasRotatingPoint = false;
+                }
             }
 
             jQuery('#square').click(function(){
@@ -169,6 +176,14 @@
                 });
                 canvas.add(triangle);
             });
+
+            jQuery('#remove').click(function(){
+                if(canvas.getActiveObject() != undefined)
+                    canvas.getActiveObject().remove();
+
+                if(canvas.getActiveGroup() != undefined)
+                    canvas.getActiveGroup().forEachObject(function(o){ canvas.remove(o) });
+            })
         })();
     </script>
 
@@ -194,3 +209,6 @@
 
 </body>
 </html>
+
+
+<?php /* TODO : en mode forme on peut déplacer les tracés de la gomme */
