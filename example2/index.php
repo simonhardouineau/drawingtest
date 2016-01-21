@@ -72,7 +72,7 @@
             <input type="button" value="Carré" id="square"/>
             <input type="button" value="Cercle" id="circle"/>
             <input type="button" value="Triangle" id="triangle"/>
-            <input type="button" value="remove" id="Remove"/>
+            <input type="button" value="remove" id="remove"/>
         </div>
     </div>
 
@@ -149,11 +149,6 @@
             if (canvas.freeDrawingBrush) {
                 canvas.freeDrawingBrush.color = drawingColorEl.value;
                 canvas.freeDrawingBrush.width = parseInt(drawingLineWidthEl.value, 10) || 1;
-                if(drawingModeSelector.value == 'gomme'){
-                    canvas.freeDrawingBrush.hasBorders = false;
-                    canvas.freeDrawingBrush.hasControls = false;
-                    canvas.freeDrawingBrush.hasRotatingPoint = false;
-                }
             }
 
             jQuery('#square').click(function(){
